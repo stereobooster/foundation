@@ -145,6 +145,9 @@
     }
   });
 
+  var $currentDropdown,
+      currentPosition = 0;
+
   $('form.custom div.custom.dropdown a.current, form.custom div.custom.dropdown a.selector').live('click', function (event) {
     var $this = $(this),
         $dropdown = $this.closest('div.custom.dropdown'),
@@ -158,11 +161,54 @@
         if ($dropdown.hasClass('open')) {
           $document.bind('click.customdropdown', function (event) {
             $dropdown.removeClass('open');
+            $currentDropdown = 0;
             $document.unbind('.customdropdown');
           });
+          $currentDropdown = $dropdown;
+          $currentDropdown.prev().find('option').each(function (index) {
+            if (this.selected) { 
+              currentPosition = index;
+            }
+          });
+          var $li = $currentDropdown.find('li');
+          $li.removeClass('selected');
+          $li.eq(currentPosition).addClass('selected');
         } else {
+          $currentDropdown = 0;
           $document.unbind('.customdropdown');
         }
+    }
+  });
+
+  $(document).bind('keydown', function (event) {
+    if ($currentDropdown) {
+      var keyCode = event.keyCode,
+          $select = $currentDropdown.prev(),
+          $li;
+
+      if (keyCode == 13 || keyCode == 27) { //return & escape
+        $currentDropdown.trigger('click.customdropdown');
+        return false;
+      } else if (keyCode == 37 || keyCode == 38) { //left & up
+        currentPosition--;
+      } else if (keyCode == 39 || keyCode == 40) { //right & down
+        currentPosition++;
+      } else {
+        return true;
+      }
+      $li = $currentDropdown.find('li');
+
+      if (currentPosition < 0) {
+        currentPosition = 0;
+      } else if (currentPosition > $li.length - 1) {
+        currentPosition = $li.length - 1;
+      } else {
+        $li.removeClass('selected');
+        $li.eq(currentPosition).addClass('selected');
+        $currentDropdown.find('.current').html($li.eq(currentPosition).html());
+        $select[0].selectedIndex = currentPosition;
+      }
+      return false;
     }
   });
   
