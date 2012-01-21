@@ -153,11 +153,7 @@
   function dropdownChange ($dropdown, selected) {
     $currentDropdown = $dropdown;
     if ($currentDropdown) {
-      $currentDropdown.prev().find('option').each(function (index) {
-        if (this.selected) { 
-          currentPosition = index;
-        }
-      });
+      currentPosition = $currentDropdown.prev()[0].selectedIndex;
       if (selected) {
         $currentDropdown.find('li')
           .removeClass('selected hover')
@@ -234,6 +230,9 @@
     event.preventDefault();
     
     if (!$dropdown.prev().is(':disabled')) {
+        if ($currentDropdown && $currentDropdown.hasClass('open') && !$dropdown.hasClass('open')) {
+          $document.trigger('click.customdropdown');
+        }
         $dropdown.toggleClass('open');
         if ($dropdown.hasClass('open')) {
           $document.bind('click.customdropdown', function (event) {
@@ -241,7 +240,8 @@
             dropdownChange();
             $document.unbind('.customdropdown');
           });
-          dropdownChange($dropdown, true)
+          dropdownChange($dropdown, true);
+          return false;
         } else {
           dropdownChange();
           $document.unbind('.customdropdown');
@@ -258,7 +258,7 @@
     event.preventDefault();
     event.stopPropagation();
     $document.unbind('.customdropdown');
-    
+
     $this
       .closest('ul')
       .find('li')
