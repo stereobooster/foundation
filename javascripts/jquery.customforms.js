@@ -217,14 +217,18 @@
         currentPosition = $li.length - 1;
       } else {
         if (!focus) {
-          $li.removeClass('selected hover')
-            .eq(currentPosition)
-            .addClass('selected hover');
+          $li.removeClass('selected hover');
         }
 
         $currentDropdown.find('.current').html($li.eq(currentPosition).html());
         $select[0].selectedIndex = currentPosition;
       }
+
+      if (!focus) {
+        $li.eq(currentPosition)
+          .addClass('selected hover');
+      }
+
     }
   });
 
