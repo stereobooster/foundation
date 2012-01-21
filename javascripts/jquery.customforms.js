@@ -190,20 +190,20 @@
     }
   });
 
-  $('form.custom .customized').live('focus', function (event) {
-    $(event.target).next().addClass('focus');
-    if (event.target.nodeName.toLowerCase() == 'select') {
-      dropdownChange($(event.target).next());
-      focus = 1;
+  function changeFocus(target, focused) {
+    var $input = $(target).next().toggleClass('focus', focused);
+    if (target.nodeName.toLowerCase() == 'select') {
+      dropdownChange(focused && $input);
+      focus = focused;
     }
+  }
+
+  $('form.custom .customized').live('focus', function (event) {
+    changeFocus(this, true);
   });
 
   $('form.custom .customized').live('blur', function (event) {
-    $(event.target).next().removeClass('focus');
-    if (event.target.nodeName.toLowerCase() == 'select') {
-      dropdownChange();
-      focus = 0;
-    }
+    changeFocus(this, false);
   });
 
   $document.bind('keydown', function (event) {
