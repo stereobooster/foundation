@@ -160,35 +160,12 @@
         }
       });
       if (selected) {
-        var $li = $currentDropdown.find('li');
-        $li.removeClass('selected');
-        $li.eq(currentPosition).addClass('selected');  
+        $currentDropdown.find('li')
+          .removeClass('selected hover')
+          .eq(currentPosition).addClass('selected');
       }  
     }
   }
-
-  $('form.custom div.custom.dropdown .current, form.custom div.custom.dropdown .selector').live('click', function (event) {
-    var $this = $(this),
-        $dropdown = $this.closest('div.custom.dropdown'),
-        $select = $dropdown.prev();
-    
-    event.preventDefault();
-    
-    if (!$select.is(':disabled')) {
-        $dropdown.toggleClass('open');
-        if ($dropdown.hasClass('open')) {
-          $document.bind('click.customdropdown', function (event) {
-            $dropdown.removeClass('open');
-            dropdownChange();
-            $document.unbind('.customdropdown');
-          });
-          dropdownChange($dropdown, true)
-        } else {
-          dropdownChange();
-          $document.unbind('.customdropdown');
-        }
-    }
-  });
 
   function changeFocus(target, focused) {
     var $input = $(target).next().toggleClass('focus', focused);
@@ -251,6 +228,29 @@
     }
   });
 
+  $('form.custom div.custom.dropdown .current, form.custom div.custom.dropdown .selector').live('click', function (event) {
+    var $this = $(this),
+        $dropdown = $this.closest('div.custom.dropdown'),
+        $select = $dropdown.prev();
+    
+    event.preventDefault();
+    
+    if (!$select.is(':disabled')) {
+        $dropdown.toggleClass('open');
+        if ($dropdown.hasClass('open')) {
+          $document.bind('click.customdropdown', function (event) {
+            $dropdown.removeClass('open');
+            dropdownChange();
+            $document.unbind('.customdropdown');
+          });
+          dropdownChange($dropdown, true)
+        } else {
+          dropdownChange();
+          $document.unbind('.customdropdown');
+        }
+    }
+  });
+
   $('form.custom div.custom.dropdown li').live('click', function (event) {
     var $this = $(this),
         $customDropdown = $this.closest('div.custom.dropdown'),
@@ -263,7 +263,7 @@
     $this
       .closest('ul')
       .find('li')
-      .removeClass('selected');
+      .removeClass('selected hover');
     $this.addClass('selected');
     
     $customDropdown
