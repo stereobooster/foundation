@@ -36,9 +36,7 @@
       $customSelect = $('<div class="custom dropdown"><span href="#" class="selector"></span><ul></ul></div>"');
       $customSelect.prepend('<span href="#" class="current">' + $options.first().html() + '</sapn>');
 
-      $select.removeAttr('style').addClass('customized')
-        .after($customSelect);
-      
+      $select.after($customSelect);
       $ul = $customSelect.find('ul');
     } else {
       $ul = $customSelect.find('ul').html('');
@@ -48,6 +46,7 @@
 
     if (append) {
       $customSelect.toggleClass('disabled', $select.is(':disabled'));
+      $select.removeAttr('style').addClass('customized');
     }
 
     $options.each(function () {
