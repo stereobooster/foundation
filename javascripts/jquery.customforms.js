@@ -187,15 +187,10 @@
     if ($currentDropdown) {
       
       var keyCode = event.keyCode,
-          $select = $currentDropdown.prev(),
           $li;
 
       if (event.target.nodeName.toLowerCase() == 'select') {
-        $(event.target).find('option').each(function (index) {
-          if (this.selected) {
-            currentPosition = index;
-          }
-        });
+        currentPosition = event.target.selectedIndex;
       } else {
         if ((keyCode == 13 || keyCode == 27) && !focus) { //return & escape
           $currentDropdown.trigger('click.customdropdown');
@@ -222,7 +217,7 @@
         }
 
         $currentDropdown.find('.current').html($li.eq(currentPosition).html());
-        $select[0].selectedIndex = currentPosition;
+        $currentDropdown.prev()[0].selectedIndex = currentPosition;
       }
 
       if (!focus) {
@@ -235,12 +230,11 @@
 
   $('form.custom div.custom.dropdown .current, form.custom div.custom.dropdown .selector').live('click', function (event) {
     var $this = $(this),
-        $dropdown = $this.closest('div.custom.dropdown'),
-        $select = $dropdown.prev();
+        $dropdown = $this.closest('div.custom.dropdown');
     
     event.preventDefault();
     
-    if (!$select.is(':disabled')) {
+    if (!$dropdown.prev().is(':disabled')) {
         $dropdown.toggleClass('open');
         if ($dropdown.hasClass('open')) {
           $document.bind('click.customdropdown', function (event) {
