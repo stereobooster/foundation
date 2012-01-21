@@ -91,6 +91,7 @@
 	form.custom div.custom.dropdown ul li.selected { background: url(../images/misc/custom-form-sprites.png) right -52px no-repeat; }
 	form.custom div.custom.dropdown ul li:hover,
 	form.custom div.custom.dropdown ul li.hover { background-color: #2a85e8; color: #fff; }
+	form.custom div.custom.dropdown ul li.selected.hover,
 	form.custom div.custom.dropdown ul li.selected:hover { background: url(../images/misc/custom-form-sprites.png) #2a85e8 right -78px no-repeat; }
 	form.custom div.custom.dropdown ul.show { display: block; }
 

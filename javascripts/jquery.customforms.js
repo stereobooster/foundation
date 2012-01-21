@@ -148,13 +148,29 @@
 
   var $currentDropdown,
       currentPosition = 0,
-      focus;
+      focus,
+      $document = $(document);
+
+  function dropdownChange ($dropdown, selected) {
+    $currentDropdown = $dropdown;
+    if ($currentDropdown) {
+      $currentDropdown.prev().find('option').each(function (index) {
+        if (this.selected) { 
+          currentPosition = index;
+        }
+      });
+      if (selected) {
+        var $li = $currentDropdown.find('li');
+        $li.removeClass('selected');
+        $li.eq(currentPosition).addClass('selected');  
+      }  
+    }
+  }
 
   $('form.custom div.custom.dropdown .current, form.custom div.custom.dropdown .selector').live('click', function (event) {
     var $this = $(this),
         $dropdown = $this.closest('div.custom.dropdown'),
-        $select = $dropdown.prev(),
-        $document = $(document);
+        $select = $dropdown.prev();
     
     event.preventDefault();
     
@@ -163,65 +179,59 @@
         if ($dropdown.hasClass('open')) {
           $document.bind('click.customdropdown', function (event) {
             $dropdown.removeClass('open');
-            $currentDropdown = 0;
+            dropdownChange();
             $document.unbind('.customdropdown');
           });
-          $currentDropdown = $dropdown;
-          $currentDropdown.prev().find('option').each(function (index) {
-            if (this.selected) { 
-              currentPosition = index;
-            }
-          });
-          var $li = $currentDropdown.find('li');
-          $li.removeClass('selected');
-          $li.eq(currentPosition).addClass('selected');
+          dropdownChange($dropdown, true)
         } else {
-          $currentDropdown = 0;
+          dropdownChange();
           $document.unbind('.customdropdown');
         }
     }
   });
 
-  $('form.custom .customized').live('focus', function(e){
-    $(e.target).next().addClass('focus');
-    if (e.target.nodeName.toLowerCase() == 'select') {
-      $currentDropdown = $(e.target).next();
-      $currentDropdown.prev().find('option').each(function (index) {
-        if (this.selected) { 
-          currentPosition = index;
-        }
-      });
+  $('form.custom .customized').live('focus', function (event) {
+    $(event.target).next().addClass('focus');
+    if (event.target.nodeName.toLowerCase() == 'select') {
+      dropdownChange($(event.target).next());
       focus = 1;
     }
   });
 
-  $('form.custom .customized').live('blur', function(e){
-    $(e.target).next().removeClass('focus');
-    if (e.target.nodeName.toLowerCase() == 'select') {
-      $currentDropdown = 0;
+  $('form.custom .customized').live('blur', function (event) {
+    $(event.target).next().removeClass('focus');
+    if (event.target.nodeName.toLowerCase() == 'select') {
+      dropdownChange();
       focus = 0;
     }
   });
 
-  $(document).bind('keydown', function (event) {
+  $document.bind('keydown', function (event) {
     if ($currentDropdown) {
+      
       var keyCode = event.keyCode,
           $select = $currentDropdown.prev(),
           $li;
 
-      if (keyCode == 13 || keyCode == 27) { //return & escape
-        if (!focus) {
-          $currentDropdown.trigger('click.customdropdown');
-          return false;
-        }
-        return true;
-      } else if (keyCode == 37 || keyCode == 38) { //left & up
-        currentPosition--;
-      } else if (keyCode == 39 || keyCode == 40) { //right & down
-        currentPosition++;
+      if (event.target.nodeName.toLowerCase() == 'select') {
+        $(event.target).find('option').each(function (index) {
+          if (this.selected) {
+            currentPosition = index;
+          }
+        });
       } else {
-        return true;
+        if ((keyCode == 13 || keyCode == 27) && !focus) { //return & escape
+          $currentDropdown.trigger('click.customdropdown');
+        } else if (keyCode == 37 || keyCode == 38) { //left & up
+          currentPosition--;
+        } else if (keyCode == 39 || keyCode == 40) { //right & down
+          currentPosition++;
+        } else {
+          return true;
+        }
+        event.preventDefault();
       }
+
       $li = $currentDropdown.find('li');
 
       if (currentPosition < 0) {
@@ -229,12 +239,15 @@
       } else if (currentPosition > $li.length - 1) {
         currentPosition = $li.length - 1;
       } else {
-        $li.removeClass('selected');
-        $li.eq(currentPosition).addClass('selected');
+        if (!focus) {
+          $li.removeClass('selected hover')
+            .eq(currentPosition)
+            .addClass('selected hover');
+        }
+
         $currentDropdown.find('.current').html($li.eq(currentPosition).html());
         $select[0].selectedIndex = currentPosition;
       }
-      return false;
     }
   });
 
