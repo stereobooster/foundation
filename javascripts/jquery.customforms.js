@@ -199,6 +199,7 @@
       } else {
         if ((keyCode == 13 || keyCode == 27) && !focus) { //return & escape
           $currentDropdown.trigger('click.customdropdown');
+          return true;
         } else if (keyCode == 37 || keyCode == 38) { //left & up
           currentPosition--;
         } else if (keyCode == 39 || keyCode == 40) { //right & down
