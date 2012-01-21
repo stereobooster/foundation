@@ -257,6 +257,7 @@
         
     event.preventDefault();
     event.stopPropagation();
+    $document.unbind('.customdropdown');
     
     $this
       .closest('ul')
