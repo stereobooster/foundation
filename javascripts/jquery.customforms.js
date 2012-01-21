@@ -11,7 +11,7 @@
   function appendCustomMarkup(type) {
     $('form.custom input:' + type).each(function () {
 
-      var $this = $(this).hide(),
+      var $this = $(this).removeAttr('style').addClass('customized'),
           $span = $this.next('span.custom.' + type);
 
       if ($span.length === 0) {
@@ -33,11 +33,12 @@
         html;
 
     if (append && $customSelect.length === 0) {
-      $customSelect = $('<div class="custom dropdown"><a href="#" class="selector"></a><ul></ul></div>"');
-      $customSelect.prepend('<a href="#" class="current">' + $options.first().html() + '</a>');
+      $customSelect = $('<div class="custom dropdown"><span href="#" class="selector"></span><ul></ul></div>"');
+      $customSelect.prepend('<span href="#" class="current">' + $options.first().html() + '</sapn>');
 
-      $select.hide().after($customSelect);
-
+      $select.removeAttr('style').addClass('customized')
+        .after($customSelect);
+      
       $ul = $customSelect.find('ul');
     } else {
       $ul = $customSelect.find('ul').html('');
@@ -123,7 +124,7 @@
     
     toggleRadio($(this));
   });
-  
+
   $('form.custom select').live('change', function (event) {
     refreshCustomSelect($(this));
   });
@@ -146,9 +147,10 @@
   });
 
   var $currentDropdown,
-      currentPosition = 0;
+      currentPosition = 0,
+      focus;
 
-  $('form.custom div.custom.dropdown a.current, form.custom div.custom.dropdown a.selector').live('click', function (event) {
+  $('form.custom div.custom.dropdown .current, form.custom div.custom.dropdown .selector').live('click', function (event) {
     var $this = $(this),
         $dropdown = $this.closest('div.custom.dropdown'),
         $select = $dropdown.prev(),
@@ -180,6 +182,27 @@
     }
   });
 
+  $('form.custom .customized').live('focus', function(e){
+    $(e.target).next().addClass('focus');
+    if (e.target.nodeName.toLowerCase() == 'select') {
+      $currentDropdown = $(e.target).next();
+      $currentDropdown.prev().find('option').each(function (index) {
+        if (this.selected) { 
+          currentPosition = index;
+        }
+      });
+      focus = 1;
+    }
+  });
+
+  $('form.custom .customized').live('blur', function(e){
+    $(e.target).next().removeClass('focus');
+    if (e.target.nodeName.toLowerCase() == 'select') {
+      $currentDropdown = 0;
+      focus = 0;
+    }
+  });
+
   $(document).bind('keydown', function (event) {
     if ($currentDropdown) {
       var keyCode = event.keyCode,
@@ -187,8 +210,11 @@
           $li;
 
       if (keyCode == 13 || keyCode == 27) { //return & escape
-        $currentDropdown.trigger('click.customdropdown');
-        return false;
+        if (!focus) {
+          $currentDropdown.trigger('click.customdropdown');
+          return false;
+        }
+        return true;
       } else if (keyCode == 37 || keyCode == 38) { //left & up
         currentPosition--;
       } else if (keyCode == 39 || keyCode == 40) { //right & down
@@ -211,7 +237,7 @@
       return false;
     }
   });
-  
+
   $('form.custom div.custom.dropdown li').live('click', function (event) {
     var $this = $(this),
         $customDropdown = $this.closest('div.custom.dropdown'),
