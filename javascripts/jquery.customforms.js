@@ -33,8 +33,8 @@
         html;
 
     if (append && $customSelect.length === 0) {
-      $customSelect = $('<div class="custom dropdown"><span href="#" class="selector"></span><ul></ul></div>"');
-      $customSelect.prepend('<span href="#" class="current">' + $options.first().html() + '</sapn>');
+      $customSelect = $('<div class="custom dropdown"><span class="selector"></span><ul></ul></div>"');
+      $customSelect.prepend('<span class="current">' + $options.first().html() + '</sapn>');
 
       $select.after($customSelect);
       $ul = $customSelect.find('ul');
@@ -267,7 +267,7 @@
     
     $customDropdown
       .removeClass('open')
-      .find('a.current')
+      .find('.current')
       .html($this.html());
     
     $this.closest('ul').find('li').each(function (index) {
