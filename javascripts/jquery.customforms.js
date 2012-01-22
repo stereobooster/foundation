@@ -182,13 +182,16 @@
     if ($currentDropdown) {
       
       var keyCode = event.keyCode,
-          $li;
+          $li,
+          isSelect = event.target.nodeName.toLowerCase() == 'select',
+          $select = $currentDropdown.prev();
 
-      if (event.target.nodeName.toLowerCase() == 'select') {
+      if (isSelect) {
         currentPosition = event.target.selectedIndex;
       } else {
         if ((keyCode == 13 || keyCode == 27) && !focus) { //return & escape
           $currentDropdown.trigger('click.customdropdown');
+          $select.trigger('change');
           return true;
         } else if (keyCode == 37 || keyCode == 38) { //left & up
           currentPosition--;
@@ -212,7 +215,9 @@
         }
 
         $currentDropdown.find('.current').html($li.eq(currentPosition).html());
-        $currentDropdown.prev()[0].selectedIndex = currentPosition;
+        if (!isSelect) {
+          $select[0].selectedIndex = currentPosition;
+        }
       }
 
       if (!focus) {
