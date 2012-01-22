@@ -8,6 +8,12 @@
 
 (function ($) {
 
+  var $currentDropdown,
+      currentPosition = 0,
+      focus,
+      $document = $(document),
+      ownEvent = 'foundation';
+
   function appendCustomMarkup(type) {
     $('form.custom input:' + type).each(function () {
 
@@ -124,10 +130,12 @@
     toggleRadio($(this));
   });
 
-  $('form.custom select').live('change', function (event) {
-    refreshCustomSelect($(this));
+  $('form.custom select').live('change', function (event, own) {
+    if (own !== ownEvent) {
+      refreshCustomSelect($(this));
+    }
   });
-  
+
   $('form.custom label').live('click', function (event) {
     var $this = $(this),
         $associatedElement = $('#' + $this.attr('for')),
@@ -144,11 +152,6 @@
       }
     }
   });
-
-  var $currentDropdown,
-      currentPosition = 0,
-      focus,
-      $document = $(document);
 
   function dropdownChange ($dropdown, selected) {
     $currentDropdown = $dropdown;
@@ -191,7 +194,7 @@
       } else {
         if ((keyCode == 13 || keyCode == 27) && !focus) { //return & escape
           $currentDropdown.trigger('click.customdropdown');
-          $select.trigger('change');
+          $select.trigger('change', [ownEvent]);
           return true;
         } else if (keyCode == 37 || keyCode == 38) { //left & up
           currentPosition--;
@@ -283,6 +286,6 @@
     });
     $select[0].selectedIndex = selectedIndex;
     
-    $select.trigger('change');
+    $select.trigger('change', [ownEvent]);
   });
 })(jQuery);
