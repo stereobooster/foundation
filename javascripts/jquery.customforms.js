@@ -197,56 +197,52 @@
   });
 
   $document.bind('keyup', function (event) {
-    if ($currentDropdown) {
+    if ($currentDropdown && focus) {
+
+      currentPosition = event.target.selectedIndex;
+
+      $currentDropdown.find('.current')
+        .html($currentDropdown.find('li').eq(currentPosition).html());
+    }
+  });
+
+  $document.bind('keydown', function (event) {
+    if ($currentDropdown && !focus) {
       
-      var keyCode = event.keyCode,
-          $li,
-          isSelect = event.target.nodeName.toLowerCase() == 'select',
-          $select = $currentDropdown.prev();
+      var $li = $currentDropdown.find('li'),
+          keyCode = event.keyCode,
+          $select = $currentDropdown.prev(),
+          $currentLi;
 
-      if (isSelect) {
-        currentPosition = event.target.selectedIndex;
+      if (keyCode == 13 || keyCode == 27) { //return & escape
+        $currentDropdown.trigger('click.customdropdown');
+        $select.trigger('change', [ownEvent]);
+        return true;
+      } else if (keyCode == 37 || keyCode == 38) { //left & up
+        currentPosition--;
+      } else if (keyCode == 39 || keyCode == 40) { //right & down
+        currentPosition++;
       } else {
-        if ((keyCode == 13 || keyCode == 27) && !focus) { //return & escape
-          $currentDropdown.trigger('click.customdropdown');
-          $select.trigger('change', [ownEvent]);
-          return true;
-        } else if (keyCode == 37 || keyCode == 38) { //left & up
-          currentPosition--;
-        } else if (keyCode == 39 || keyCode == 40) { //right & down
-          currentPosition++;
-        } else {
-          return true;
-        }
-        event.preventDefault();
+        return true;
       }
-
-      $li = $currentDropdown.find('li');
+      event.preventDefault();
 
       if (currentPosition < 0) {
         currentPosition = 0;
       } else if (currentPosition > $li.length - 1) {
         currentPosition = $li.length - 1;
       } else {
-        if (!focus) {
-          $li.removeClass('selected hover');
-        }
-
+        $li.removeClass('selected hover');
         $currentDropdown.find('.current').html($li.eq(currentPosition).html());
-        if (!isSelect) {
-          $select[0].selectedIndex = currentPosition;
-        }
+        $select[0].selectedIndex = currentPosition;
       }
 
-      if (!focus) {
-        var $currentLi = $li.eq(currentPosition)
-              .addClass('selected hover');
+      $currentLi = $li.eq(currentPosition)
+        .addClass('selected hover');
 
-        if ($li.length > maxVisibleOptions) {
-          $currentDropdown.find('ul').scrollTop(currentPosition * $currentLi.outerHeight());
-        }
+      if ($li.length > maxVisibleOptions) {
+        $currentDropdown.find('ul').scrollTop(currentPosition * $currentLi.outerHeight());
       }
-
     }
   });
 
