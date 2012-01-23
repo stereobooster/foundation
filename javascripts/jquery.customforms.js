@@ -12,7 +12,8 @@
       currentPosition = 0,
       focus,
       $document = $(document),
-      ownEvent = 'foundation';
+      ownEvent = 'foundation',
+      maxVisibleOptions = 10;
 
   function appendCustomMarkup(type) {
     $('form.custom input:' + type).each(function () {
@@ -36,7 +37,8 @@
         outerWidth,
         li = '',
         $ul,
-        html;
+        html,
+        $li;
 
     if (append && $customSelect.length === 0) {
       $customSelect = $('<div class="custom dropdown"><span class="selector"></span><ul></ul></div>"');
@@ -66,8 +68,10 @@
     });
     $ul.append(li);
 
+    $li = $customSelect.find('li');
+
     // fix width
-    $customSelect.find('li').each(function () {
+    $li.each(function () {
       $customSelect.addClass('open');
       outerWidth = $(this).outerWidth();
       if (outerWidth > maxWidth) {
@@ -75,9 +79,16 @@
       }
       $customSelect.removeClass('open');
     });
+
     $customSelect.css('width', maxWidth + 18 + 'px');
     $ul.css('width', maxWidth + 16 + 'px');
 
+    if ($li.length > maxVisibleOptions) {
+      $customSelect.addClass('open');
+      $ul.css('height', $li.first().outerHeight() * maxVisibleOptions + 'px')
+        .css('overflow-y', 'scroll');
+      $customSelect.removeClass('open');
+    }
   }
 
   $(function () {
@@ -158,9 +169,13 @@
     if ($currentDropdown) {
       currentPosition = $currentDropdown.prev()[0].selectedIndex;
       if (selected) {
-        $currentDropdown.find('li')
-          .removeClass('selected hover')
-          .eq(currentPosition).addClass('selected');
+        var $currentLi = $currentDropdown.find('li')
+              .removeClass('selected hover')
+              .eq(currentPosition).addClass('selected');
+
+          if (currentPosition > maxVisibleOptions - 1) {
+            $currentDropdown.find('ul').scrollTop(currentPosition * $currentLi.outerHeight());
+          }
       }  
     }
   }
@@ -224,8 +239,12 @@
       }
 
       if (!focus) {
-        $li.eq(currentPosition)
-          .addClass('selected hover');
+        var $currentLi = $li.eq(currentPosition)
+              .addClass('selected hover');
+
+        if ($li.length > maxVisibleOptions) {
+          $currentDropdown.find('ul').scrollTop(currentPosition * $currentLi.outerHeight());
+        }
       }
 
     }
