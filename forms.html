@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Welcome to Foundation</title>
+  
+	<!-- Included CSS Files -->
+	<!-- Combine and Compress These CSS Files -->
+	<link rel="stylesheet" href="stylesheets/globals.css">
+	<link rel="stylesheet" href="stylesheets/typography.css">
+	<link rel="stylesheet" href="stylesheets/grid.css">
+	<link rel="stylesheet" href="stylesheets/ui.css">
+	<link rel="stylesheet" href="stylesheets/forms.css">
+	<link rel="stylesheet" href="stylesheets/mobile.css">
+	<!-- End Combine and Compress These CSS Files -->
+	<link rel="stylesheet" href="stylesheets/app.css">
+
+	<!--[if lt IE 9]>
+		<link rel="stylesheet" href="stylesheets/ie.css">
+	<![endif]-->
+
+
+	<!-- IE Fix for HTML5 Tags -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+
+	<!-- container -->
+	<div class="container">
+
+		<div class="row">
+			<div class="twelve columns">
+
+				<h3>Forms</h3>
+				
+				<h4>Forms</h4>
+				<form>
+					<p>Inputs support a number of different base classes. Any text input has a class of 'input-text' and supports several sizes:</p>
+					<label>Standard Input</label>
+					<input type="text" class="input-text" />
+
+					<label>Small Input</label>
+					<input type="text" class="small input-text" />
+
+					<label>Medium Input</label>
+					<input type="text" class="medium input-text" />
+
+					<label>Large Input</label>
+					<input type="text" class="large input-text" />
+
+					<label>Oversize Input</label>
+					<input type="text" class="oversize input-text" />
+
+					<h5>Inline Labels</h5>
+					<p>Inline labels are accomplished using the HTML5 Placeholder attribute, with a built-in JS fallback.</p>
+					<input type="text" class="input-text" placeholder="Inline label" />
+					
+					
+					<h5>Error States</h5>
+					<p>Error states can be applied in two ways:</p>
+					
+					<div class='form-field error'>
+						<label>Medium Input (with wrapper)</label>
+						<input type="text" class="medium input-text" />
+						<small>Whoa, cowboy. Try that again.</small>
+					</div>
+					
+					<label class="red">Medium Input</label>
+					<input type="text" class="medium input-text red" />
+					<small class="error">Whoa, cowboy. Try that again.</small>
+
+					<label>Textarea</label>
+					<textarea>This is a textarea</textarea>
+
+					<label>Inline Label Textarea</label>
+					<textarea placeholder="This is a text area"></textarea>
+
+					<label for="checkbox1"><input type="checkbox" id="checkbox1"> Label for Checkbox</label>
+
+					<label for="radio1"><input type="radio" id="radio1"> Label for Radio</label>
+
+						<label>Dropdown Label</label>
+						<select>
+							<option>This is a dropdown</option>
+							<option>This is another option</option>
+							<option>Look, a third option</option>
+						</select>
+
+					<div class="row">
+						<div class="seven columns">
+							<fieldset>
+								<h5>Fieldset Header H2</h5>
+								<p>This is a paragraph within a fieldset.</p>
+
+								<label>Standard Input</label>
+								<input type="text" class="input-text" />
+							</fieldset>
+						</div>
+					</div>
+				</form>
+
+				<hr />
+
+				<h4>Nice Forms</h4>
+				<form class="nice">
+					<p>Changing the form style to a slightly fancier version is dead simple - just add a class of 'nice' to the form itself.</p>
+
+					<label>Standard Input</label>
+					<input type="text" class="input-text" />
+
+					<input type="text" placeholder="Inline label" class="input-text" />
+
+					<label>Small Input</label>
+					<input type="text" class="small input-text" />
+
+					<div class='form-field error'>
+						<label>Medium Input (with wrapper)</label>
+						<input type="text" class="medium input-text" />
+						<small>Whoa, cowboy. Try that again.</small>
+					</div>
+					
+					<label class="red">Medium Input</label>
+					<input type="text" class="medium red input-text" />
+					<small class="error">Whoa, cowboy. Try that again.</small>
+
+					<label>Large Input</label>
+					<input type="text" class="large input-text" />
+
+					<label>Oversize Input</label>
+					<input type="text" class="oversize input-text" />
+
+					<label>Textarea</label>
+					<textarea>This is a textarea</textarea>
+
+					<label>Inline Label Textarea</label>
+					<textarea placeholder="This is a text area"></textarea>
+
+					<label for="checkbox1"><input type="checkbox" id="checkbox1"> Label for Checkbox</label>
+
+					<label for="radio1"><input type="radio" id="radio1"> Label for Radio</label>
+
+					<label>Dropdown Label</label>
+					<select>
+						<option>This is a dropdown</option>
+						<option>This is another option</option>
+						<option>Look, a third option</option>
+					</select>
+
+					<div class="row">
+						<div class="seven columns">
+							<fieldset>
+								<h5>Fieldset Header H2</h5>
+								<p>This is a paragraph within a fieldset.</p>
+
+								<label>Standard Input</label>
+								<input type="text" class="input-text" />
+							</fieldset>
+						</div>
+					</div>
+				</form>
+
+				<hr />
+
+				<h3>Custom Forms</h3>	
+				
+				<form class="custom">
+											
+					<h5>Radio Buttons</h5>
+					
+					<h5>Checkboxes</h5>
+					
+					<div class="row">
+						<div class="four columns">
+							<label for="radio1"><input name="radio1" type="radio" id="radio1" style="display:none;"><span class="custom radio"></span> Radio Button 1</label>
+							<label for="radio2"><input name="radio1" type="radio" id="radio2" style="display:none;"><span class="custom radio checked"></span> Radio Button 2</label>
+							<label for="radio3"><input name="radio1" type="radio" id="radio3" style="display:none;"><span class="custom radio"></span> Radio Button 3</label>
+						</div>
+						<div class="four columns">
+							<label for="radio4"><input name="radio2" type="radio" id="radio4"> Radio Button 1</label>
+							<label for="radio5"><input name="radio2" CHECKED type="radio" id="radio5"> Radio Button 2</label>
+							<label for="radio6"><input name="radio2" type="radio" id="radio6"> Radio Button 3</label>
+						</div>
+						<div class="four columns">
+							<label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Label for Checkbox</label>
+							<label for="checkbox2"><input type="checkbox" id="checkbox2" checked style="display: none;"><span class="custom checkbox checked"></span> Label for Checkbox</label>
+							<label for="checkbox3"><input type="checkbox" CHECKED id="checkbox3"> Label for Checkbox</label>
+						</div>
+					</div>
+
+					<h5>Dropdown / Select Elements</h5>
+
+					<label>Dropdown Label</label>
+					<select>
+						<option SELECTED>This is a dropdown</option>
+						<option>This is another option</option>
+						<option>Look, a third option</option>
+					</select>
+					<div class="custom dropdown">
+						<span class="current">
+							This is a dropdown
+						</span>
+						<span class="selector"></span>
+						<ul>
+							<li>This is a dropdown</li>
+							<li>This is another option</li>
+							<li>Look, a third option</li>
+						</ul>
+					</div>
+
+					<label>Dropdown Label</label>
+					<select>
+						<option>This is a dropdown</option>
+						<option SELECTED>This is another option</option>
+						<option>Look, a third option</option>
+						<option>Very loooooooooooooooooooooooooooooooooooooooooooooooooong option</option>
+						<option>5</option>
+						<option>6</option>
+						<option>7</option>
+						<option>8</option>
+						<option>9</option>
+						<option>10</option>
+						<option>11</option>
+						<option>12</option>
+						<option>13</option>
+						<option>14</option>
+						<option>15</option>
+						<option>16</option>
+						<option>17</option>
+						<option>18</option>
+						<option>19</option>
+						<option>20</option>
+						<option>21</option>
+						<option>22</option>
+						<option>23</option>
+						<option>24</option>
+						<option>25</option>
+						<option>26</option>
+						<option>27</option>
+						<option>28</option>
+						<option>29</option>
+						<option>30</option>
+					</select>
+
+					<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+				</form>
+				
+			</div>
+		</div>
+	</div>
+	<!-- container -->
+
+
+
+
+	<!-- Included JS Files -->
+	<script src="javascripts/jquery.min.js"></script>
+	<script src="javascripts/modernizr.foundation.js"></script>
+	<!-- Combine and Compress These JS Files -->
+	<script src="javascripts/jquery.customforms.js"></script>
+	<script src="javascripts/jquery.placeholder.min.js"></script>
+	<!-- End Combine and Compress These JS Files -->
+	<script src="javascripts/app.js"></script>
+
+</body>
+</html>

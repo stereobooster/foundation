@@ -218,10 +218,10 @@
 						<option>Look, a third option</option>
 					</select>
 					<div class="custom dropdown">
-						<span href="#" class="current">
+						<span class="current">
 							This is a dropdown
 						</span>
-						<span href="#" class="selector"></span>
+						<span class="selector"></span>
 						<ul>
 							<li>This is a dropdown</li>
 							<li>This is another option</li>
