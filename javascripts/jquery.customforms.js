@@ -42,7 +42,7 @@
 
     if (append && $customSelect.length === 0) {
       $customSelect = $('<div class="custom dropdown"><span class="selector"></span><ul></ul></div>"');
-      $customSelect.prepend('<span class="current">' + $options.first().html() + '</sapn>');
+      $customSelect.prepend('<span class="current">' + $options.first().html() + '</span>');
 
       $select.after($customSelect);
       $ul = $customSelect.find('ul');
@@ -196,52 +196,41 @@
     changeFocus(this, false);
   });
 
-  $document.bind('keyup', function (event) {
-    if ($currentDropdown && focus) {
-
-      currentPosition = event.target.selectedIndex;
-
-      $currentDropdown.find('.current')
-        .html($currentDropdown.find('li').eq(currentPosition).html());
+  $document.bind('keydown', function (event) {
+    if ($currentDropdown) {
+      if (event.keyCode == 9) { //tab
+        $document.trigger('click.customdropdown');
+      }
     }
   });
 
-  $document.bind('keydown', function (event) {
-    if ($currentDropdown && !focus) {
-      
+  $document.bind('keyup', function (event) {
+    if ($currentDropdown) {
+      currentPosition = event.target.selectedIndex;
+
       var $li = $currentDropdown.find('li'),
+          $currentLi = $li.eq(currentPosition),
           keyCode = event.keyCode,
-          $select = $currentDropdown.prev(),
-          $currentLi;
+          $select = $(event.target);
 
-      if (keyCode == 13 || keyCode == 27) { //return & escape
-        $currentDropdown.trigger('click.customdropdown');
-        $select.trigger('change', [ownEvent]);
-        return true;
-      } else if (keyCode == 37 || keyCode == 38) { //left & up
-        currentPosition--;
-      } else if (keyCode == 39 || keyCode == 40) { //right & down
-        currentPosition++;
-      } else {
-        return true;
-      }
-      event.preventDefault();
+      $currentDropdown.find('.current')
+        .html($currentLi.html());
 
-      if (currentPosition < 0) {
-        currentPosition = 0;
-      } else if (currentPosition > $li.length - 1) {
-        currentPosition = $li.length - 1;
-      } else {
+      if ($currentDropdown.hasClass('open')) {
+
+        if (keyCode == 13 || keyCode == 27) { //return & escape
+          $currentDropdown.removeClass('open');
+          $document.unbind('.customdropdown');
+          $select.trigger('change', [ownEvent]);
+          return true;
+        }
+
         $li.removeClass('selected hover');
-        $currentDropdown.find('.current').html($li.eq(currentPosition).html());
-        $select[0].selectedIndex = currentPosition;
-      }
+        $currentLi.addClass('selected hover');
 
-      $currentLi = $li.eq(currentPosition)
-        .addClass('selected hover');
-
-      if ($li.length > maxVisibleOptions) {
-        $currentDropdown.find('ul').scrollTop(currentPosition * $currentLi.outerHeight());
+        if ($li.length > maxVisibleOptions) {
+          $currentDropdown.find('ul').scrollTop(currentPosition * $currentLi.outerHeight());
+        }
       }
     }
   });
@@ -253,10 +242,11 @@
     event.preventDefault();
     
     if (!$dropdown.prev().is(':disabled')) {
-        if ($currentDropdown && $currentDropdown.hasClass('open') && !$dropdown.hasClass('open')) {
+        if (!$dropdown.hasClass('open')) {
           $document.trigger('click.customdropdown');
         }
         $dropdown.toggleClass('open');
+        $dropdown.prev().focus();
         if ($dropdown.hasClass('open')) {
           $document.bind('click.customdropdown', function (event) {
             $dropdown.removeClass('open');
@@ -300,7 +290,7 @@
       
     });
     $select[0].selectedIndex = selectedIndex;
-    
     $select.trigger('change', [ownEvent]);
+    $select.focus();
   });
 })(jQuery);
