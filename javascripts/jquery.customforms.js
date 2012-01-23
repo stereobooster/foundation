@@ -86,7 +86,8 @@
     if ($li.length > maxVisibleOptions) {
       $customSelect.addClass('open');
       $ul.css('height', $li.first().outerHeight() * maxVisibleOptions + 'px')
-        .css('overflow-y', 'scroll');
+        .css('overflow-y', 'scroll')
+        .css('overflow-x', 'hidden');
       $customSelect.removeClass('open');
     }
   }
@@ -128,17 +129,13 @@
   }
   
   $('form.custom span.custom.checkbox').live('click', function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    
     toggleCheckbox($(this));
+    return false;
   });
   
   $('form.custom span.custom.radio').live('click', function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    
     toggleRadio($(this));
+    return false;
   });
 
   $('form.custom select').live('change', function (event, own) {
@@ -251,7 +248,9 @@
           $document.bind('click.customdropdown', function (event) {
             $dropdown.removeClass('open');
             dropdownChange();
-            $document.unbind('.customdropdown');
+            if ($(event.target).closest('div.custom.dropdown').length == 0) {
+                $document.unbind('.customdropdown');
+            }
           });
           dropdownChange($dropdown, true);
           return false;
