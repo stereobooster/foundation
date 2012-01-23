@@ -196,7 +196,7 @@
     changeFocus(this, false);
   });
 
-  $document.bind('keydown', function (event) {
+  $document.bind('keyup', function (event) {
     if ($currentDropdown) {
       
       var keyCode = event.keyCode,
